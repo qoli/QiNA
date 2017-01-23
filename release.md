@@ -4,17 +4,7 @@
 
 基於 vue-electron 開發。
 
-![螢幕快照 2017-01-23 下午5.26.56](./screen/main.png)
-
-
-
-## Release 下載
-
-https://github.com/qoli/QiNA/releases/
-
-
-
-------
+![螢幕快照 2017-01-23 下午5.26.56](./screen/螢幕快照 2017-01-23 下午5.26.56.png)
 
 ## Build Setup
 
