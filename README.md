@@ -4,8 +4,6 @@
 
 基於 vue-electron 開發。
 
-![螢幕快照 2017-01-23 下午5.26.56](./screen/main.png)
-
 
 
 ## Release 下載
@@ -14,7 +12,16 @@ https://github.com/qoli/QiNA/releases/
 
 
 
-------
+## TODO
+
+- [ ] 修正設定面板無法複製粘貼的問題
+- [ ] 添加拖入文件的支持
+
+
+
+## Screen
+
+![螢幕快照 2017-01-23 下午5.26.56](./screen/main.png)
 
 ## Build Setup
 

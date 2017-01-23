@@ -19,10 +19,9 @@ let config = {}
 
 console.log(settings.getSettingsFilePath());
 
+// 收到上傳文件請求
 ipcMain.on('upFile', (event, arg) => {
-  console.log("upFile", arg);
   settings.get('Keys').then(val => {
-    console.log('upFile GetKeys', val);
     var returnMsg;
 
     if (val == undefined) {
@@ -34,20 +33,23 @@ ipcMain.on('upFile', (event, arg) => {
       return false;
     }
 
-    var domain = val.Domain;
+    if (val.Access == null || val.Bucket == null || val.Domain == null || val.Secret == null) {
+      returnMsg = {
+        state: false,
+        err: '配置檔案不全'
+      }
+      event.sender.send('qina', returnMsg)
+      return false;
+    }
+
     qiniu.conf.ACCESS_KEY = val.Access;
     qiniu.conf.SECRET_KEY = val.Secret;
+    var domain = val.Domain;
     var bucket = val.Bucket;
-
-    var key = moment().format() + '-' + transliteration.slugify(arg.Name) + path.extname(arg.Name);
+    var key = transliteration.slugify(arg.Name) + '(' + moment().format() + ')' + path.extname(arg.Name);
     var filePath = path.normalize(arg.Path);
-
-    console.log("qiniu.conf.ACCESS_KEY", qiniu.conf.ACCESS_KEY);
-
     var putPolicy = new qiniu.rs.PutPolicy(bucket + ":" + key);
-
     var token = putPolicy.token();
-    console.log(token);
 
     uploadFile(token, key, filePath);
 
@@ -77,7 +79,8 @@ ipcMain.on('upFile', (event, arg) => {
           event.sender.send('qina', returnMsg)
         }
       });
-    }
+    } // function end.
+
   });
 })
 
