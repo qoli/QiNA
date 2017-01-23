@@ -51,38 +51,39 @@ ipcMain.on('upFile', (event, arg) => {
     var putPolicy = new qiniu.rs.PutPolicy(bucket + ":" + key);
     var token = putPolicy.token();
 
-    uploadFile(token, key, filePath);
-
-    function uploadFile(uptoken, key, localFile) {
-      var extra = new qiniu.io.PutExtra();
-
-      qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
-        if (!err) {
-          returnMsg = {
-            state: true,
-            hash: ret.hash,
-            key: ret.key
-          }
-
-          settings.set('Files', {
-            name: ret.key,
-            domain: domain
-          })
-          console.log(returnMsg);
-          event.sender.send('qina', returnMsg)
-        } else {
-          returnMsg = {
-            state: false,
-            err: err
-          }
-          console.log(returnMsg);
-          event.sender.send('qina', returnMsg)
-        }
-      });
-    } // function end.
+    uploadFile(token, key, filePath, domain, event);
 
   });
 })
+
+function uploadFile(uptoken, key, localFile, domain, event) {
+  var returnMsg;
+  var extra = new qiniu.io.PutExtra();
+
+  qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
+    if (!err) {
+      returnMsg = {
+        state: true,
+        hash: ret.hash,
+        key: ret.key
+      }
+
+      settings.set('Files', {
+        name: ret.key,
+        domain: domain
+      })
+      console.log(returnMsg);
+      event.sender.send('qina', returnMsg)
+    } else {
+      returnMsg = {
+        state: false,
+        err: err
+      }
+      console.log(returnMsg);
+      event.sender.send('qina', returnMsg)
+    }
+  });
+} // function end.
 
 ipcMain.on('getLink', (event, arg) => {
   settings.get('Files').then(val => {

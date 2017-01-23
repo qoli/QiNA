@@ -140,12 +140,15 @@ body {
     <router-view></router-view>
   </transition>
 </div>
+
 </template>
 
 <script>
 import store from 'src/vuex/store'
-
+import MenuView from './components/MenuView'
 export default {
-  store
+  store,
+  MenuView
 }
+
 </script>
