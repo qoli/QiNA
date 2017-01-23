@@ -342,7 +342,6 @@ export default {
     ContentClick() {
 
       this.loadData();
-
       if (!that.SetReadly) {
         return 0;
       }
