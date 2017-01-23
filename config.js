@@ -27,4 +27,4 @@ module.exports = config
 
 // npm run build
 
-// cp -r /Users/qoli/Documents/Desktop-Apps/my-project/app/node_modules /Users/qoli/Documents/Desktop-Apps/my-project/builds/QiNA-darwin-x64/QiNA.app/Contents/Resources/app
+// cp -r /Users/qoli/Documents/Desktop-Apps/QiNA/app/node_modules /Users/qoli/Documents/Desktop-Apps/QiNA/builds/QiNA-darwin-x64/QiNA.app/Contents/Resources/app

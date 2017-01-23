@@ -7,6 +7,7 @@ h4,
 h5,
 p {
     cursor: default;
+    -webkit-user-select: none;
 }
 
 // flex
@@ -145,10 +146,9 @@ body {
 
 <script>
 import store from 'src/vuex/store'
-import MenuView from './components/MenuView'
+
 export default {
-  store,
-  MenuView
+  store
 }
 
 </script>

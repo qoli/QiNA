@@ -8,12 +8,12 @@ const settings = require('electron-settings');
 const {
   ipcMain,
   dialog,
-  shell
-} = require('electron')
+  shell,
+  Menu
+} = require('electron');
 const transliteration = require('transliteration');
 var moment = require('moment');
-var qiniu = require("qiniu");
-
+var qn = require('qn');
 let mainWindow
 let config = {}
 
@@ -42,48 +42,49 @@ ipcMain.on('upFile', (event, arg) => {
       return false;
     }
 
-    qiniu.conf.ACCESS_KEY = val.Access;
-    qiniu.conf.SECRET_KEY = val.Secret;
-    var domain = val.Domain;
-    var bucket = val.Bucket;
     var key = transliteration.slugify(arg.Name) + '(' + moment().format() + ')' + path.extname(arg.Name);
     var filePath = path.normalize(arg.Path);
-    var putPolicy = new qiniu.rs.PutPolicy(bucket + ":" + key);
-    var token = putPolicy.token();
 
-    uploadFile(token, key, filePath, domain, event);
+    var client = qn.create({
+      accessKey: val.Access,
+      secretKey: val.Secret,
+      bucket: val.Bucket,
+      origin: val.Domain,
+    });
+
+    console.log('qn 開始上傳');
+    client.uploadFile(filePath, {
+      key: key
+    }, function(err, ret) {
+      console.log(ret);
+
+      if (!err) {
+        returnMsg = {
+          state: true,
+          hash: ret.hash,
+          key: ret.key
+        }
+
+        settings.set('Files', {
+          name: ret.key,
+          domain: val.Domain
+        })
+        console.log(returnMsg);
+        event.sender.send('qina', returnMsg)
+      } else {
+        returnMsg = {
+          state: false,
+          err: err
+        }
+        console.log(returnMsg);
+        event.sender.send('qina', returnMsg)
+      }
+
+    });
+
 
   });
 })
-
-function uploadFile(uptoken, key, localFile, domain, event) {
-  var returnMsg;
-  var extra = new qiniu.io.PutExtra();
-
-  qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
-    if (!err) {
-      returnMsg = {
-        state: true,
-        hash: ret.hash,
-        key: ret.key
-      }
-
-      settings.set('Files', {
-        name: ret.key,
-        domain: domain
-      })
-      console.log(returnMsg);
-      event.sender.send('qina', returnMsg)
-    } else {
-      returnMsg = {
-        state: false,
-        err: err
-      }
-      console.log(returnMsg);
-      event.sender.send('qina', returnMsg)
-    }
-  });
-} // function end.
 
 ipcMain.on('getLink', (event, arg) => {
   settings.get('Files').then(val => {
@@ -165,6 +166,160 @@ function createWindow() {
   })
 
   console.log('mainWindow opened')
+
+
+  var template = [{
+      label: 'Edit',
+      submenu: [{
+          label: 'Undo',
+          accelerator: 'CmdOrCtrl+Z',
+          role: 'undo'
+        },
+        {
+          label: 'Redo',
+          accelerator: 'Shift+CmdOrCtrl+Z',
+          role: 'redo'
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Cut',
+          accelerator: 'CmdOrCtrl+X',
+          role: 'cut'
+        },
+        {
+          label: 'Copy',
+          accelerator: 'CmdOrCtrl+C',
+          role: 'copy'
+        },
+        {
+          label: 'Paste',
+          accelerator: 'CmdOrCtrl+V',
+          role: 'paste'
+        },
+        {
+          label: 'Select All',
+          accelerator: 'CmdOrCtrl+A',
+          role: 'selectall'
+        },
+      ]
+    },
+    {
+      label: 'View',
+      submenu: [{
+          label: 'Reload',
+          accelerator: 'CmdOrCtrl+R',
+          click: function(item, focusedWindow) {
+            if (focusedWindow)
+              focusedWindow.reload();
+          }
+        },
+        {
+          label: 'Toggle Developer Tools',
+          accelerator: (function() {
+            if (process.platform == 'darwin')
+              return 'Alt+Command+I';
+            else
+              return 'Ctrl+Shift+I';
+          })(),
+          click: function(item, focusedWindow) {
+            if (focusedWindow)
+              focusedWindow.toggleDevTools();
+          }
+        },
+      ]
+    },
+    {
+      label: 'Window',
+      role: 'window',
+      submenu: [{
+          label: 'Minimize',
+          accelerator: 'CmdOrCtrl+M',
+          role: 'minimize'
+        },
+        {
+          label: 'Close',
+          accelerator: 'CmdOrCtrl+W',
+          role: 'close'
+        },
+      ]
+    },
+    {
+      label: 'Help',
+      role: 'help',
+      submenu: [{
+        label: '5ML Studio',
+        click: function() {
+          shell.openExternal('https://www.5mlstudio.com/')
+        }
+      }, {
+        label: 'QiNA @Github',
+        click: function() {
+          shell.openExternal('https://github.com/qoli/QiNA')
+        }
+      }]
+    },
+  ];
+
+  if (process.platform == 'darwin') {
+    var name = app.getName();
+    template.unshift({
+      label: name,
+      submenu: [{
+          label: 'About ' + name,
+          role: 'about'
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Services',
+          role: 'services',
+          submenu: []
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Hide ' + name,
+          accelerator: 'Command+H',
+          role: 'hide'
+        },
+        {
+          label: 'Hide Others',
+          accelerator: 'Command+Alt+H',
+          role: 'hideothers'
+        },
+        {
+          label: 'Show All',
+          role: 'unhide'
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Quit',
+          accelerator: 'Command+Q',
+          click: function() {
+            app.quit();
+          }
+        },
+      ]
+    });
+    // Window menu.
+    template[3].submenu.push({
+      type: 'separator'
+    }, {
+      label: 'Bring All to Front',
+      role: 'front'
+    });
+  }
+
+  var menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+
+  console.log("menu done!");
 }
 
 app.on('ready', createWindow)
