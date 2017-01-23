@@ -66,13 +66,14 @@ hr {
   <div class="AboutControl">
     <p>Copyright ©️ 2017 5ml-Studio All Rights Reserved.</p>
   </div>
+
 </template>
 
 <script>
 import {
   ipcRenderer
 }
-from 'electron';
+from 'electron'
 
 export default {
   data() {
@@ -82,9 +83,10 @@ export default {
   },
   methods: {
     open() {
-      ipcRenderer.send('openLink', this.www);
+      ipcRenderer.send('openLink', this.www)
     },
   },
   name: 'SettingView'
 }
+
 </script>

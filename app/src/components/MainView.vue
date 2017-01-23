@@ -166,9 +166,8 @@
     </div>
   </div>
   <div v-if="!HasPath" class="TextArea">
-    <p class="t">QiNA 七牛分享工具</p>
-    <p>請拖放加入需要分享的檔案</p>
-    <p>檔案將會存放在你的七牛 CDN</p>
+    <p class="t">QiNA</p>
+    <p>請選擇需要分享的檔案</p>
   </div>
   <div v-else class="TextArea">
     <p class="t">檔案</p>

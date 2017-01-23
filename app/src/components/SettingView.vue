@@ -72,6 +72,7 @@
 
   </div>
 </div>
+
 </template>
 
 <script>
@@ -122,7 +123,8 @@ export default {
 
         if (arg == 'OK') {
           that.mainText = '成功'
-        } else {
+        }
+        else {
           that.mainText = '保存發生錯誤'
         }
 
@@ -152,4 +154,5 @@ export default {
   },
   name: 'SettingView'
 }
+
 </script>

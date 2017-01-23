@@ -116,6 +116,7 @@ hr {
   <div class="Control">
     <router-link to="/" class="button is-info is-outlined">返回</router-link>
   </div>
+
 </template>
 
 <script>
@@ -151,4 +152,5 @@ export default {
   },
   name: 'SettingView'
 }
+
 </script>
