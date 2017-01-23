@@ -1,6 +1,10 @@
-# my-project
+# QiNA
 
-> An electron-vue project
+> 一個七牛 CDN Nodejs GUI 封裝
+
+基於 vue-electron 開發。
+
+![螢幕快照 2017-01-23 下午5.26.56](./screen/螢幕快照 2017-01-23 下午5.26.56.png)
 
 ## Build Setup
 
