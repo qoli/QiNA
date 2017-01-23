@@ -179,13 +179,26 @@
 
   </div>
   <div class="Control">
-    <p><button v-on:click="openFile" class="button wide is-info">{{buttonName}}</button></p>
-    <p>
-      <router-link to="/Setting" class="button wide is-info is-outlined">设定配置档</router-link>
-    </p>
+    <div v-if="isUploading">
+      <p>
+        <button v-on:click="stop" class="button wide is-warning">中斷</button>
+      </p>
+      <p><span class="help">如果配置檔錯誤，也會導致一直顯示正在上傳</span></p>
+    </div>
+
+    <div v-if="!isUploading">
+      <p>
+        <button v-on:click="openFile" v-bind:class="{ 'is-disabled': !SetReadly }" class="button wide is-info">{{buttonName}}</button>
+      </p>
+      <p>
+        <router-link to="/Setting" class="button wide is-info is-outlined">设定配置档</router-link>
+      </p>
+    </div>
+
     <!-- <p><button v-on:click="sw" class="button is-info is-outlined">切換</button></p> -->
   </div>
 </div>
+
 </template>
 
 <script>
@@ -218,7 +231,8 @@ export default {
       HasPath: false,
       buttonName: '選擇檔案',
       UploadingText: '正在上傳',
-      filePath: ''
+      filePath: '',
+      SetReadly: false
     }
   },
   components: {
@@ -234,6 +248,14 @@ export default {
   methods: {
     sw() {
 
+    },
+    stop() {
+      var that = this;
+      that.UploadingText = '上傳中斷';
+      setTimeout(function() {
+        that.HasPath = false;
+        that.isUploading = false;
+      }, 1200);
     },
     cleanFile() {
       var that = this;
@@ -276,7 +298,8 @@ export default {
           that.HasPath = false;
           that.filePath = '';
           that.buttonName = '選擇檔案';
-        } else {
+        }
+        else {
           var f = filePaths[0].split('/');
           that.Path = filePaths[0];
           that.HasPath = true;
@@ -288,9 +311,28 @@ export default {
       });
     },
     loadData() {
+      var that = this;
       ipcRenderer.on('LoadKeys', (event, arg) => {
-        this.Access = arg.Access;
-        this.Secret = arg.Secret;
+
+        if (arg == null) {
+          that.SetReadly = false;
+          that.buttonName = '尚未設定配置檔';
+        }
+        else {
+
+          if (arg.Access == null || arg.Bucket == null || arg.Domain == null || arg.Secret == null) {
+            that.SetReadly = false;
+            that.buttonName = '配置檔設定不全';
+          }
+          else {
+            that.SetReadly = true;
+            that.buttonName = '選擇檔案';
+            that.Access = arg.Access;
+            that.Secret = arg.Secret;
+          }
+
+        }
+
       })
     },
     getData() {
@@ -298,6 +340,13 @@ export default {
       this.loadData();
     },
     ContentClick() {
+
+      this.loadData();
+
+      if (!that.SetReadly) {
+        return 0;
+      }
+
       var that = this;
       this.isAnimete = true;
       setTimeout(function() {
@@ -308,4 +357,5 @@ export default {
   },
   name: 'MainView'
 }
+
 </script>

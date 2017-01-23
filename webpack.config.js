@@ -18,8 +18,7 @@ let config = {
   },
   module: {
     preLoaders: [],
-    loaders: [
-      {
+    loaders: [{
         test: /\.css$/,
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
       },
@@ -96,17 +95,14 @@ if (process.env.NODE_ENV !== 'production') {
    * Apply ESLint
    */
   if (settings.eslint) {
-    config.module.preLoaders.push(
-      {
-        test: /\.js$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.vue$/,
-        loader: 'eslint-loader'
-      }
-    )
+    config.module.preLoaders.push({
+      test: /\.js$/,
+      loader: 'eslint-loader',
+      exclude: /node_modules/
+    }, {
+      test: /\.vue$/,
+      loader: 'eslint-loader'
+    })
   }
 }
 

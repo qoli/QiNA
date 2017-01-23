@@ -1,5 +1,4 @@
-export default [
-  {
+export default [{
     path: '/',
     name: 'MainView',
     component: require('components/MainView')

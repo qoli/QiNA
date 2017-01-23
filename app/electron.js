@@ -4,10 +4,11 @@ const electron = require('electron')
 const path = require('path')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
-  // const electronVibrancy = require('electron-vibrancy');
 const settings = require('electron-settings');
 const {
-  ipcMain, dialog, shell
+  ipcMain,
+  dialog,
+  shell
 } = require('electron')
 const transliteration = require('transliteration');
 var moment = require('moment');
@@ -22,15 +23,23 @@ ipcMain.on('upFile', (event, arg) => {
   console.log("upFile", arg);
   settings.get('Keys').then(val => {
     console.log('upFile GetKeys', val);
+    var returnMsg;
+
+    if (val == undefined) {
+      returnMsg = {
+        state: false,
+        err: '配置檔尚未設定'
+      }
+      event.sender.send('qina', returnMsg) //向前端發送 Keys
+      return false;
+    }
 
     var domain = val.Domain;
     qiniu.conf.ACCESS_KEY = val.Access;
     qiniu.conf.SECRET_KEY = val.Secret;
     var bucket = val.Bucket;
 
-    var key = moment().format() + '-' + transliteration.slugify(arg.Name) +
-      path.extname(
-        arg.Name);
+    var key = moment().format() + '-' + transliteration.slugify(arg.Name) + path.extname(arg.Name);
     var filePath = path.normalize(arg.Path);
 
     console.log("qiniu.conf.ACCESS_KEY", qiniu.conf.ACCESS_KEY);
@@ -44,11 +53,10 @@ ipcMain.on('upFile', (event, arg) => {
 
     function uploadFile(uptoken, key, localFile) {
       var extra = new qiniu.io.PutExtra();
-      var val;
-      qiniu.io.putFile(uptoken, key, localFile, extra, function (err,
-        ret) {
+
+      qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
         if (!err) {
-          val = {
+          returnMsg = {
             state: true,
             hash: ret.hash,
             key: ret.key
@@ -58,17 +66,18 @@ ipcMain.on('upFile', (event, arg) => {
             name: ret.key,
             domain: domain
           })
+          console.log(returnMsg);
+          event.sender.send('qina', returnMsg)
         } else {
-          val = {
+          returnMsg = {
             state: false,
             err: err
           }
+          console.log(returnMsg);
+          event.sender.send('qina', returnMsg)
         }
-        event.sender.send('qina', val) //向前端發送 Keys
       });
     }
-
-
   });
 })
 
