@@ -21,6 +21,7 @@ https://github.com/qoli/QiNA/releases/
 ##### 添加
 
 * 文件拖放上傳加入。
+* 添加開源項目列表。
 
 ##### 修正
 

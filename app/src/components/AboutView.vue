@@ -39,6 +39,9 @@ hr {
 .Link {
     text-decoration: underline;
 }
+.lh {
+    line-height: 2.4em;
+}
 </style>
 
 <template>
@@ -55,6 +58,21 @@ hr {
       <hr/>
       <h5>版本</h5>
       <p>1.0.0</p>
+      <hr/>
+      <h5>相關開源項目</h5>
+      <p class="lh">
+        <span class="tag">animate.css</span>
+        <span class="tag">bulma</span>
+        <span class="tag">electron</span>
+        <br/>
+        <span class="tag">electron-settings</span>
+        <span class="tag">moment</span>
+        <span class="tag">qn</span>
+        <span class="tag">transliteration</span>
+        <span class="tag">vue</span>
+
+      </p>
+
     </div>
 
   </div>

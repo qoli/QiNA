@@ -1,6 +1,6 @@
 {
   "name": "QiNA",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An electron-vue project",
   "main": "electron.js",
   "dependencies": {
