@@ -4,6 +4,8 @@
 
 一個七牛 CDN Nodejs GUI 封裝。
 
+視頻展示：[https://ok919op2k.qnssl.com/kapture-2017-01-26-at-4-58-mp4(2017-01-26T04:58:22+08:00).mp4]( https://ok919op2k.qnssl.com/kapture-2017-01-26-at-4-58-mp4(2017-01-26T04:58:22+08:00).mp4)
+
 
 
 ## 發佈版下載
