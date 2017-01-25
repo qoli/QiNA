@@ -133,10 +133,35 @@
     transform: translateY(-15px);
     opacity: 0;
 }
+
+.Draging {
+    position: absolute;
+    left: 50%;
+    top: 210px;
+    margin-left: -102px;
+    z-index: 5000;
+    height: 206px;
+    width: 206px;
+    background: rbga(0,0,0,0);
+    border-radius: 50%;
+    animation: Rotate 10000ms infinite linear;
+    border: 4px dashed #D2E7FD;
+}
+@-webkit-keyframes Rotate {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+    }
+}
 </style>
 
 <template>
 <div>
+  <transition name="fade">
+    <div v-if="isDraging" class="Draging"></div>
+  </transition>
   <div id="Uploader">
     <div class="ContentArea flex aitems-center jcontent-center">
       <div v-on:click="ContentClick" class="inBox animated flex aitems-center jcontent-center" v-bind:class="{ 'pulse': isAnimete,'Uploading': isUploading }">
@@ -165,17 +190,19 @@
       </div>
     </div>
   </div>
+
   <div v-if="!HasPath" class="TextArea">
-    <p class="t">QiNA</p>
+    <p class="t">{{title}}</p>
     <p>請選擇需要分享的檔案</p>
   </div>
   <div v-else class="TextArea">
     <p class="t">檔案</p>
 
     <span class="tag is-success">
-      {{filePath}}
+      {{fileName}}
       <button v-if="!isUploading" v-on:click="cleanFile" class="delete is-small"></button>
     </span>
+
 
   </div>
   <div class="Control">
@@ -203,6 +230,7 @@
 
 <script>
 import SvgGraphics from './MainView/SvgGraphics'
+import FileUpload from 'vue-upload-component'
 
 import {
   ipcRenderer
@@ -222,6 +250,7 @@ var options = {
 export default {
   data() {
     return {
+      title: 'QiNA',
       copyData: 'copy data',
       Access: null,
       Secret: null,
@@ -231,22 +260,49 @@ export default {
       HasPath: false,
       buttonName: '選擇檔案',
       UploadingText: '正在上傳',
-      filePath: '',
-      SetReadly: false
+      fileName: '',
+      SetReadly: false,
+      isDraging: false
     }
   },
   components: {
-    SvgGraphics
+    SvgGraphics,
+    FileUpload
   },
   created: function() {
 
-    document.addEventListener('dragover', event => event.preventDefault())
-    document.addEventListener('drop', event => event.preventDefault())
-
+    this.drop();
     this.getData();
+
   },
   methods: {
-    sw() {
+    drop() {
+      var that = this;
+
+      var timeoutID
+      document.addEventListener('dragover', function(event) {
+        event.stopPropagation();
+        event.preventDefault();
+        // console.log("dragover", event);
+        that.isDraging = true;
+        window.clearTimeout(timeoutID);
+
+        timeoutID = setTimeout(function() {
+          that.isDraging = false;
+        }, 800);
+
+      });
+      document.addEventListener('drop', function(event) {
+        console.log("drop", event);
+        event.stopPropagation();
+        event.preventDefault();
+
+        var files = event.dataTransfer.files;
+        console.log("files", files);
+
+        that.openFile(files[0]);
+
+      });
 
     },
     stop() {
@@ -260,16 +316,19 @@ export default {
     cleanFile() {
       var that = this;
       that.HasPath = false;
-      that.filePath = '';
+      that.fileName = '';
       that.buttonName = '選擇檔案';
     },
-    openFile() {
+    openFile(file = '') {
       var that = this;
 
+      console.log(file);
+
+      // 如果有文件路徑，則呼叫主線程上傳文件
       if (that.HasPath) {
         ipcRenderer.send('upFile', {
           Path: that.Path,
-          Name: that.filePath
+          Name: that.fileName
         })
 
         that.isUploading = true;
@@ -292,23 +351,35 @@ export default {
         return true;
       }
 
-      dialog.showOpenDialog(options, function(filePaths) {
+      if (file == '') {
+        dialog.showOpenDialog(options, function(fileNames) {
+          if (fileNames == undefined) {
+            that.HasPath = false;
+            that.fileName = '';
+            that.buttonName = '選擇檔案';
+            return false;
+          }
+          else {
+            var f = fileNames[0].split('/');
+            that.Path = fileNames[0];
+            that.HasPath = true;
+            that.fileName = f[f.length - 1];
+            that.buttonName = '上傳';
+          }
+        });
+        return true;
+      }
 
-        if (filePaths == undefined) {
-          that.HasPath = false;
-          that.filePath = '';
-          that.buttonName = '選擇檔案';
-        }
-        else {
-          var f = filePaths[0].split('/');
-          that.Path = filePaths[0];
-          that.HasPath = true;
-          that.filePath = f[f.length - 1];
-          that.buttonName = '上傳';
-        }
+      if (file != '') {
 
+        that.Path = file.path;
+        that.HasPath = true;
+        that.fileName = file.name;
+        that.buttonName = '上傳';
 
-      });
+        return true;
+      }
+
     },
     loadData() {
       var that = this;
@@ -340,13 +411,14 @@ export default {
       this.loadData();
     },
     ContentClick() {
+      var that = this;
 
       this.loadData();
       if (!that.SetReadly) {
         return 0;
       }
 
-      var that = this;
+
       this.isAnimete = true;
       setTimeout(function() {
         that.openFile();

@@ -1,69 +1,4 @@
-<style lang="scss">
-div,
-h1,
-h2,
-h3,
-h4,
-h5,
-p {
-    cursor: default;
-    -webkit-user-select: none;
-}
-
-// flex
-.flex {
-    display: flex;
-}
-
-.flex-column {
-    flex-direction: column;
-}
-
-.flex-row {
-    flex-direction: row;
-}
-
-.aitems-flex-start {
-    align-items: flex-start;
-}
-
-.aitems-center {
-    align-items: center;
-}
-
-.aitems-flex-end {
-    align-items: flex-end;
-}
-
-.aself-center {
-    align-self: center;
-}
-
-.aself-center {
-    align-self: flex-end;
-}
-
-.acontent-center {
-    align-content: center;
-}
-
-.acontent-flex-end {
-    align-content: flex-end;
-}
-
-.jcontent-center {
-    justify-content: center;
-}
-
-.jcontent-flex-end {
-    justify-content: flex-end;
-}
-
-.jcontent-flex-start {
-    justify-content: flex-start;
-}
-
-// flex-end
+<style lang="scss">@import "./style/comm.scss";
 
 * {
     margin: 0;
@@ -132,6 +67,30 @@ body {
 .fade-enter,
 .fade-leave-active {
     opacity: 0;
+}
+
+.SettingTitle,
+.form {
+    margin-bottom: 24px;
+}
+
+.SettingControl {
+    padding: 0 30px;
+    text-align: left;
+}
+
+.More {
+    p {
+        font-size: 12px;
+    }
+}
+
+.label {
+    font-size: 10px;
+}
+
+.HightLight {
+    cursor: pointer;
 }
 </style>
 
