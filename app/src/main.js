@@ -12,7 +12,9 @@ import 'animate.css/animate.min.css'
 Vue.use(Electron)
 Vue.use(Resource)
 Vue.use(Router)
-Vue.config.debug = false
+
+Vue.config.debug = false;
+Vue.config.devtools = false;
 
 const router = new Router({
   scrollBehavior: () => ({
@@ -21,7 +23,6 @@ const router = new Router({
   routes
 })
 
-/* eslint-disable no-new */
 new Vue({
   router,
   ...App

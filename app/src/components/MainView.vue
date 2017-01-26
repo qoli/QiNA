@@ -230,7 +230,6 @@
 
 <script>
 import SvgGraphics from './MainView/SvgGraphics'
-import FileUpload from 'vue-upload-component'
 
 import {
   ipcRenderer
@@ -266,8 +265,7 @@ export default {
     }
   },
   components: {
-    SvgGraphics,
-    FileUpload
+    SvgGraphics
   },
   created: function() {
 
