@@ -10,7 +10,7 @@
 
 body,
 html {
-    background-color: rgba(253, 253, 253, 0.01);
+    background-color: rgb(250, 250, 250);
 }
 
 body {
