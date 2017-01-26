@@ -21,7 +21,7 @@ https://github.com/qoli/QiNA/releases/
 
 ## 更新日誌
 
-##### 2017年01月26日
+##### 2017年01月26日．0.0.4 版本
 
 ##### 添加
 
@@ -37,7 +37,7 @@ https://github.com/qoli/QiNA/releases/
 
 ##### 2017年01月26日．之前
 
-0.0.3 版本．發佈
+* 0.0.3 版本．發佈
 
 
 
@@ -48,6 +48,7 @@ https://github.com/qoli/QiNA/releases/
 - [x] 添加文件拖入上傳的支持。
 - [ ] 郵件內使用的分享樣式。
 - [ ] 下載文件的 Web 分享頁面。
+- [ ] 停用「translate3d」動畫，以支持窗口背景透明模糊。
 
 
 
