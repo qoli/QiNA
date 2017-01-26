@@ -146,8 +146,7 @@ function createWindow() {
     frame: false,
     resizable: false,
     fullscreen: false,
-    fullscreenable: false,
-    vibrancy: 'light'
+    fullscreenable: false
   })
 
   mainWindow.loadURL(config.url)

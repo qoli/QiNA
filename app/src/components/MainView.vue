@@ -40,6 +40,7 @@
     border-radius: 50%;
     overflow: hidden;
     position: relative;
+    transform: translate3d(0, 0, 0);
     .inBox-icon {
         width: 100px;
         height: 100px;
@@ -157,7 +158,7 @@
   </transition>
   <div id="Uploader">
     <div class="ContentArea flex aitems-center jcontent-center">
-      <div v-on:click="ContentClick" class="inBox animated flex aitems-center jcontent-center" v-bind:class="{ 'pulse': isAnimete,'Uploading': isUploading }">
+      <div v-on:click="inBoxClick" class="inBox animated flex aitems-center jcontent-center" v-bind:class="{ 'pulse': isAnimete,'Uploading': isUploading }">
 
         <transition name="slide-fade">
           <div v-if="isUploading" class="areaText">
@@ -217,11 +218,6 @@
     </div>
 
     <!-- <p><button v-on:click="something" class="button is-info is-outlined">按鈕</button></p> -->
-    <!-- <input type="radio" name="vibrancy" onclick="require('electron').remote.getCurrentWindow().setVibrancy()" checked>None<br>
-    <input type="radio" name="vibrancy" onclick="require('electron').remote.getCurrentWindow().setVibrancy('light')">Light<br>
-    <input type="radio" name="vibrancy" onclick="require('electron').remote.getCurrentWindow().setVibrancy('medium-light')">Medium Light<br>
-    <input type="radio" name="vibrancy" onclick="require('electron').remote.getCurrentWindow().setVibrancy('dark')">Dark<br>
-    <input type="radio" name="vibrancy" onclick="require('electron').remote.getCurrentWindow().setVibrancy('ultra-dark')">Ultra Dark<br> -->
   </div>
 </div>
 
@@ -268,7 +264,7 @@ export default {
   },
   created: function() {
 
-    require('electron').remote.getCurrentWindow().setVibrancy('light')
+    // require('electron').remote.getCurrentWindow().setVibrancy('light')
     this.drop();
     this.getData();
 
@@ -323,63 +319,75 @@ export default {
     },
     openFile(file = '') {
       var that = this;
+      var way = '';
 
-      console.log(file);
+      console.log("openFile", file);
 
       // 如果有文件路徑，則呼叫主線程上傳文件
+      if (file.isTrusted) {
+        way = "select";
+      }
+      else {
+        way = 'onDrag';
+      }
+
       if (that.HasPath) {
-        ipcRenderer.send('upFile', {
-          Path: that.Path,
-          Name: that.fileName
-        })
+        way = 'upFiles';
+      }
 
-        that.isUploading = true;
+      if (file == "inBoxClick") {
+        way = "select";
+      }
 
-        ipcRenderer.on('qina', (event, arg) => {
-          console.log(arg);
-
-          if (arg.state) {
-            console.log(arg.key);
-            that.UploadingText = '上傳完成';
-            setTimeout(function() {
+      switch (way) {
+        case 'select':
+          dialog.showOpenDialog(options, function(fileNames) {
+            if (fileNames == undefined) {
               that.HasPath = false;
-              that.isUploading = false;
-              that.$router.push('Done')
-            }, 1200);
-          }
+              that.fileName = '';
+              that.buttonName = '選擇檔案';
+              return false;
+            }
+            else {
+              var f = fileNames[0].split('/');
+              that.Path = fileNames[0];
+              that.HasPath = true;
+              that.fileName = f[f.length - 1];
+              that.buttonName = '上傳';
+            }
+          });
+          break;
+        case 'onDrag':
+          that.Path = file.path;
+          that.HasPath = true;
+          that.fileName = file.name;
+          that.buttonName = '上傳';
+          break;
+        case 'upFiles':
+          ipcRenderer.send('upFile', {
+            Path: that.Path,
+            Name: that.fileName
+          })
 
-        })
+          that.isUploading = true;
 
-        return true;
-      }
+          ipcRenderer.on('qina', (event, arg) => {
+            console.log(arg);
 
-      if (file == '') {
-        dialog.showOpenDialog(options, function(fileNames) {
-          if (fileNames == undefined) {
-            that.HasPath = false;
-            that.fileName = '';
-            that.buttonName = '選擇檔案';
-            return false;
-          }
-          else {
-            var f = fileNames[0].split('/');
-            that.Path = fileNames[0];
-            that.HasPath = true;
-            that.fileName = f[f.length - 1];
-            that.buttonName = '上傳';
-          }
-        });
-        return true;
-      }
+            if (arg.state) {
+              console.log(arg.key);
+              that.UploadingText = '上傳完成';
+              setTimeout(function() {
+                that.HasPath = false;
+                that.isUploading = false;
+                that.$router.push('Done')
+              }, 1200);
+            }
 
-      if (file != '') {
+          })
+          break;
+        default:
 
-        that.Path = file.path;
-        that.HasPath = true;
-        that.fileName = file.name;
-        that.buttonName = '上傳';
-
-        return true;
       }
 
     },
@@ -412,7 +420,7 @@ export default {
       ipcRenderer.send('getKeys');
       this.loadData();
     },
-    ContentClick() {
+    inBoxClick() {
       var that = this;
 
       this.loadData();
@@ -420,10 +428,9 @@ export default {
         return 0;
       }
 
-
       this.isAnimete = true;
       setTimeout(function() {
-        that.openFile();
+        that.openFile('inBoxClick');
         that.isAnimete = false
       }, 850);
     }
