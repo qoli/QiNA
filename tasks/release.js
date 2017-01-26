@@ -27,6 +27,8 @@ function build() {
   let options = require('../config').building
 
   console.log('\x1b[34mBuilding electron app(s)...\n\x1b[0m')
+  console.log("options", options);
+  console.log("");
   packager(options, (err, appPaths) => {
     if (err) {
       console.error('\x1b[31mError from `electron-packager` when building app...\x1b[0m')
@@ -35,8 +37,6 @@ function build() {
       console.log('Build(s) successful!')
       console.log(appPaths)
       console.log('\n\x1b[34mDONE\n\x1b[0m')
-      exec('cp -r ~/Desktop-Apps/my-project/app/node_modules ~/Desktop-Apps/my-project/builds/QiNA-darwin-x64/QiNA.app/Contents/Resources/app')
-      exec('open ~/Desktop-Apps/my-project/builds/QiNA-darwin-x64/QiNA.app/Contents/Resources/app')
     }
   })
 }
