@@ -4,9 +4,15 @@ h2,
 h3,
 h4,
 h5,
-p {
+ {
     cursor: default;
     -webkit-user-select: none;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+p {
+      cursor: default;
+  -webkit-user-select: none;
 }
 
 // flex

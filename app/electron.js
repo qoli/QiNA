@@ -5,15 +5,16 @@ const path = require('path')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const settings = require('electron-settings');
+const transliteration = require('transliteration');
+var moment = require('moment');
+var qn = require('qn');
 const {
   ipcMain,
   dialog,
   shell,
   Menu
 } = require('electron');
-const transliteration = require('transliteration');
-var moment = require('moment');
-var qn = require('qn');
+
 let mainWindow
 let config = {}
 
@@ -145,10 +146,17 @@ function createWindow() {
     frame: false,
     resizable: false,
     fullscreen: false,
-    fullscreenable: false
+    fullscreenable: false,
+    vibrancy: 'light'
   })
 
   mainWindow.loadURL(config.url)
+
+  mainWindow.on('closed', () => {
+    mainWindow = null
+  })
+
+  console.log('mainWindow opened')
 
   // if (process.env.NODE_ENV === 'development') {
   //   BrowserWindow.addDevToolsExtension(path.join(__dirname,
@@ -160,13 +168,6 @@ function createWindow() {
   //     .then((name) => mainWindow.webContents.openDevTools())
   //     .catch((err) => console.log('An error occurred: ', err))
   // }
-
-  mainWindow.on('closed', () => {
-    mainWindow = null
-  })
-
-  console.log('mainWindow opened')
-
 
   var template = [{
       label: 'Edit',

@@ -1,25 +1,29 @@
-<style lang="scss">@import "./style/comm.scss";
+<style lang="scss">
+//
+@import "./style/comm.scss";
 
 * {
     margin: 0;
     padding: 0;
+    color: rgba(100, 100, 100, 0.9);
 }
 
 body,
 html {
+    background-color: rgba(253, 253, 253, 0.01);
+}
+
+body {
     height: 676px;
     width: 440px;
     -webkit-app-region: drag;
     -webkit-user-select: none;
     overflow: hidden;
-}
-
-body {
     padding: 80px 30px 30px;
     color: #404040;
+
     background-size: 100%;
     background-position: bottom;
-    background-color: rgba(255, 255, 255, 0.9);
     background-repeat: no-repeat;
     background-image: url("./components/MainView/assets/CloudBg.png");
 }

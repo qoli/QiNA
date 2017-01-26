@@ -32,16 +32,6 @@
     height: 400px;
     width: 400px;
 }
-
-#Box {
-    background-image: url("./MainView/assets/inBox.png");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 400px;
-    width: 400px;
-}
-
 .inBox {
     height: 204px;
     width: 204px;
@@ -50,14 +40,17 @@
     border-radius: 50%;
     overflow: hidden;
     position: relative;
-    transform: translate3d(0, 0, 0);
     .inBox-icon {
         width: 100px;
-        height: 99px;
+        height: 100px;
         position: absolute;
         left: 50%;
         margin-left: -50px;
-        bottom: -2px;
+        bottom: -8px;
+        background-image: url("./MainView/assets/inBox.png");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
     }
 }
 .area {
@@ -183,7 +176,8 @@
         <transition name="fade">
           <div v-if='!isUploading' class="wait">
             <SvgGraphics></SvgGraphics>
-            <img class="inBox-icon" src="./MainView/assets/inBox.png" alt="">
+            <div class="inBox-icon"></div>
+            <!-- <img class="inBox-icon" src="./MainView/assets/inBox.png" alt=""> -->
           </div>
         </transition>
 
@@ -222,7 +216,12 @@
       </p>
     </div>
 
-    <!-- <p><button v-on:click="sw" class="button is-info is-outlined">切換</button></p> -->
+    <!-- <p><button v-on:click="something" class="button is-info is-outlined">按鈕</button></p> -->
+    <!-- <input type="radio" name="vibrancy" onclick="require('electron').remote.getCurrentWindow().setVibrancy()" checked>None<br>
+    <input type="radio" name="vibrancy" onclick="require('electron').remote.getCurrentWindow().setVibrancy('light')">Light<br>
+    <input type="radio" name="vibrancy" onclick="require('electron').remote.getCurrentWindow().setVibrancy('medium-light')">Medium Light<br>
+    <input type="radio" name="vibrancy" onclick="require('electron').remote.getCurrentWindow().setVibrancy('dark')">Dark<br>
+    <input type="radio" name="vibrancy" onclick="require('electron').remote.getCurrentWindow().setVibrancy('ultra-dark')">Ultra Dark<br> -->
   </div>
 </div>
 
@@ -269,11 +268,16 @@ export default {
   },
   created: function() {
 
+    require('electron').remote.getCurrentWindow().setVibrancy('light')
     this.drop();
     this.getData();
 
   },
   methods: {
+    something() {
+      require('electron').remote.getCurrentWindow().setVibrancy('ultra-dark')
+      console.log("something");
+    },
     drop() {
       var that = this;
 
