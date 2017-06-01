@@ -157,17 +157,6 @@ function createWindow() {
 
   console.log('mainWindow opened')
 
-  // if (process.env.NODE_ENV === 'development') {
-  //   BrowserWindow.addDevToolsExtension(path.join(__dirname,
-  //     '../node_modules/devtron'))
-  //
-  //   let installExtension = require('electron-devtools-installer')
-  //
-  //   installExtension.default(installExtension.VUEJS_DEVTOOLS)
-  //     .then((name) => mainWindow.webContents.openDevTools())
-  //     .catch((err) => console.log('An error occurred: ', err))
-  // }
-
   var template = [{
       label: 'Edit',
       submenu: [{
@@ -254,9 +243,24 @@ function createWindow() {
           shell.openExternal('https://www.5mlstudio.com/')
         }
       }, {
-        label: 'QiNA @Github',
+        label: 'QiNA - Site',
+        click: function() {
+          shell.openExternal('https://qina.5mlstudio.com')
+        }
+      }, {
+        label: 'QiNA - Github',
         click: function() {
           shell.openExternal('https://github.com/qoli/QiNA')
+        }
+      }, {
+        label: '工具使用入門',
+        click: function() {
+          shell.openExternal('https://qina.5mlstudio.com/help')
+        }
+      }, {
+        label: '七牛邀請鏈接',
+        click: function() {
+          shell.openExternal('https://portal.qiniu.com/signup?code=3lq7qoate7gpa')
         }
       }]
     },
