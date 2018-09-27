@@ -1,5 +1,4 @@
 <style lang="scss">
-//
 @import "./style/comm.scss";
 
 * {
@@ -21,7 +20,6 @@ body {
     overflow: hidden;
     padding: 80px 30px 30px;
     color: #404040;
-
     background-size: 100%;
     background-position: bottom;
     background-repeat: no-repeat;
@@ -68,6 +66,7 @@ body {
 .fade-leave-active {
     transition: all 0.3s ease;
 }
+
 .fade-enter,
 .fade-leave-active {
     opacity: 0;
@@ -97,21 +96,17 @@ body {
     cursor: pointer;
 }
 </style>
-
 <template>
-<div class="app">
-  <transition name="fade">
-    <router-view></router-view>
-  </transition>
-</div>
-
+    <div class="app">
+        <transition name="fade">
+            <router-view></router-view>
+        </transition>
+    </div>
 </template>
-
 <script>
 import store from 'src/vuex/store'
 
 export default {
-  store
+    store
 }
-
 </script>

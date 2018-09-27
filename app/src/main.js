@@ -13,17 +13,17 @@ Vue.use(Electron)
 Vue.use(Resource)
 Vue.use(Router)
 
-Vue.config.debug = false;
-Vue.config.devtools = false;
+Vue.config.debug = false
+Vue.config.devtools = false
 
 const router = new Router({
-  scrollBehavior: () => ({
-    y: 0
-  }),
-  routes
+    scrollBehavior: () => ({
+        y: 0
+    }),
+    routes
 })
 
 new Vue({
-  router,
-  ...App
+    router,
+    ...App
 }).$mount('#app')
