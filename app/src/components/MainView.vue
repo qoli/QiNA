@@ -201,7 +201,7 @@
         <div class="Control">
             <div v-if="isUploading">
                 <p>
-                    <button v-on:click="stop" class="button wide is-warning">中斷</button>
+                    <button v-on:click="stop" class="button wide is-info">上傳中</button>
                 </p>
                 <p><span class="help">如果配置檔錯誤，也會導致一直顯示正在上傳</span></p>
             </div>
@@ -268,8 +268,8 @@ export default {
         },
         drop() {
             var that = this
-
             var timeoutID
+
             document.addEventListener('dragover', function(event) {
                 event.stopPropagation()
                 event.preventDefault()
@@ -293,12 +293,13 @@ export default {
             })
         },
         stop() {
-            var that = this
-            that.UploadingText = '上傳中斷'
-            setTimeout(function() {
-                that.HasPath = false
-                that.isUploading = false
-            }, 1200)
+            // var that = this
+            // that.UploadingText = '上傳中斷'
+            // ipcRenderer.send('stopFile')
+            // setTimeout(function() {
+            //     that.HasPath = false
+            //     that.isUploading = false
+            // }, 600)
         },
         cleanFile() {
             var that = this
@@ -357,6 +358,10 @@ export default {
                     })
 
                     that.isUploading = true
+
+                    ipcRenderer.on('progress', (event, arg) => {
+                        that.UploadingText = arg
+                    })
 
                     ipcRenderer.on('qina', (event, arg) => {
                         console.log(arg)

@@ -68,7 +68,7 @@ hr {
                     <br/>
                     <span class="tag">electron-settings</span>
                     <span class="tag">moment</span>
-                    <span class="tag">qn</span>
+                    <span class="tag">qiniu</span>
                     <span class="tag">transliteration</span>
                     <span class="tag">vue</span>
                 </p>

@@ -7,9 +7,15 @@
 
 > 基於 vue-electron 開發。
 
+
+
 一個七牛 CDN Nodejs GUI 封裝。
 
-視頻展示：[https://ok919op2k.qnssl.com/kapture-2017-01-26-at-4-58-mp4(2017-01-26T04:58:22+08:00).mp4]( https://ok919op2k.qnssl.com/kapture-2017-01-26-at-4-58-mp4(2017-01-26T04:58:22+08:00).mp4)
+
+
+##### 視頻展示
+
+[https://ok919op2k.qnssl.com/kapture-2017-01-26-at-4-58-mp4(2017-01-26T04:58:22+08:00).mp4]( https://ok919op2k.qnssl.com/kapture-2017-01-26-at-4-58-mp4(2017-01-26T04:58:22+08:00).mp4)
 
 
 
@@ -20,6 +26,21 @@ https://github.com/qoli/QiNA/releases/
 
 
 ## 更新日誌
+
+##### 2018年09月28日 · 0.0.5 版本
+
+##### 添加
+
+* 顯示上傳進度
+
+##### 修正
+
+* 從 qn 庫轉移為 七牛官方 SDK
+* 修正 `npm run dev` 問題
+* 符合 eslint
+* 修正 Mac 圖標陰影（設計稿不見了，所以簡單做了一個）
+
+
 
 ##### 2017年01月26日．0.0.4 版本
 
@@ -41,38 +62,15 @@ https://github.com/qoli/QiNA/releases/
 
 
 
-## 想法
-
-##### 功能：
+## TODO
 
 - [x] 添加文件拖入上傳的支持。
 - [ ] 郵件內使用的分享樣式。
 - [ ] 下載文件的 Web 分享頁面。
-- [ ] 停用「translate3d」動畫，以支持窗口背景透明模糊。
-
-
-
-
-## TODO
-
-##### 問題：
-
 - [x] 修正設定面板無法複製粘貼的問題。
+
 - [x] 修正發佈版本會多開的問題。
 - [ ] 中斷按鈕不可靠。
-- [ ] 添加上傳速度顯示。
-- [ ] 添加暫停功能以及重新開始。
-
-
-
-
-## 問題處理
-
-##### 新建窗口問題
-
-> ~~查到打包發佈版本因七牛 SDK 會新建窗口問題，正在處理。~~
->
-> 更換到非官方 qn(by fengmk2 大神)，新建窗口問題解決。
 
 
 
@@ -91,7 +89,7 @@ npm run dev
 
 # build electron app for production
 npm run build
-npm run build:darwin # builds for darwin (macOS)
+# 目前只設定了 macOS
 
 # lint all JS/Vue component files in `app/src`
 npm run lint

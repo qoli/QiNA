@@ -1,14 +1,15 @@
 {
   "name": "QiNA",
-  "version": "0.0.4",
-  "description": "An electron-vue project",
+  "version": "0.0.5",
+  "description": "一個七牛的上傳程序",
   "main": "electron.js",
   "dependencies": {
     "animate.css": "^3.5.2",
     "bulma": "^0.3.1",
     "electron-settings": "^2.2.2",
+    "fs-readstream-progress": "0.0.5",
     "moment": "^2.17.1",
-    "qn": "^1.3.0",
+    "qiniu": "^7.2.1",
     "transliteration": "^1.2.3",
     "vue": "^2.0.1",
     "vue-electron": "^1.0.0",
