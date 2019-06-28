@@ -15,7 +15,7 @@
 
 ##### 視頻展示
 
-[https://ok919op2k.qnssl.com/kapture-2017-01-26-at-4-58-mp4(2017-01-26T04:58:22+08:00).mp4]( https://ok919op2k.qnssl.com/kapture-2017-01-26-at-4-58-mp4(2017-01-26T04:58:22+08:00).mp4)
+http://qina-share.5mlstudio.com/2019-06-28-qina-cao-zuo-shi-pin-mp4(2019-06-28T21:11:46+08:00).mp4 
 
 
 
