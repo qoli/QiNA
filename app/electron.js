@@ -6,8 +6,7 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const settings = require('electron-settings');
 const transliteration = require('transliteration');
-var moment = require('moment');
-var fs = require('fs');
+// var fs = require('fs');
 var qiniu = require('qiniu');
 const {ipcMain, dialog, shell, Menu} = require('electron');
 
@@ -40,7 +39,7 @@ ipcMain.on('upFile', (event, arg) => {
             return false;
         }
 
-        var fileName = transliteration.slugify(arg.Name) + '(' + moment().format() + ')' + path.extname(arg.Name);
+        var fileName = transliteration.slugify(arg.Name) + '-' + Date.now() + path.extname(arg.Name);
         var filePath = path.normalize(arg.Path);
 
         // var token = {
@@ -176,7 +175,7 @@ if (process.env.NODE_ENV === 'development') {
 function createWindow() {
     mainWindow = new BrowserWindow({
         height: 676,
-        width: 440,
+        width: 840,
         titleBarStyle: 'hidden',
         hasShadow: true,
         frame: false,
@@ -190,6 +189,8 @@ function createWindow() {
     mainWindow.on('closed', () => {
         mainWindow = null
     })
+
+    mainWindow.webContents.openDevTools();
 
     console.log('mainWindow opened')
 
