@@ -175,7 +175,7 @@ if (process.env.NODE_ENV === 'development') {
 function createWindow() {
     mainWindow = new BrowserWindow({
         height: 676,
-        width: 840,
+        width: 440,
         titleBarStyle: 'hidden',
         hasShadow: true,
         frame: false,
@@ -190,7 +190,7 @@ function createWindow() {
         mainWindow = null
     })
 
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     console.log('mainWindow opened')
 
