@@ -38,10 +38,21 @@ ipcMain.on('upFile', (event, arg) => {
             event.sender.send('qina', returnMsg)
             return false;
         }
+        
+        const extname = path.extname(arg.Name)
 
-        var fileName = transliteration.slugify(arg.Name) + '-' + Date.now() + path.extname(arg.Name);
+        const basename = path.basename(arg.Name, extname)
+
+        var fileName = transliteration.slugify(basename) + '-' + Date.now() + extname
+        
+        const fileNameFrag = basename.split("__");
+        if (fileNameFrag.length > 1) {
+            fileName = fileNameFrag[0] + "__" +transliteration.slugify(fileNameFrag[1]) + '-' + Date.now() + extname
+        }
+
         var filePath = path.normalize(arg.Path);
-
+        // console.log("这里替换了吗", fileName);
+        // return false;
         // var token = {
         //     accessKey: val.Access,
         //     secretKey: val.Secret,
@@ -175,7 +186,7 @@ if (process.env.NODE_ENV === 'development') {
 function createWindow() {
     mainWindow = new BrowserWindow({
         height: 676,
-        width: 440,
+        width: 440, // 440
         titleBarStyle: 'hidden',
         hasShadow: true,
         frame: false,
