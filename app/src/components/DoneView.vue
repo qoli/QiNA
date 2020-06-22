@@ -1,10 +1,10 @@
 <style lang="scss">
 .posB {
     width: 380px;
-    position: absolute;
-    top: 280px;
+    /* position: absolute; */
+    margin-top: 170px;
     left: 30px;
-    height: 600px;
+    height: 100%;
 }
 
 .content {
@@ -52,6 +52,9 @@ hr {
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
         border-radius: 4px;
         font-size: 12px
+    }
+    .clip-tips {
+        margin-top: 18px;
     }
 }
 
@@ -108,16 +111,21 @@ hr {
                 <p class="control">
                     <input class="input" type="text" placeholder="Text input" v-model="link">
                 </p>
+                <transition name="fade">
+                    <p v-if="show" class="clip-tips">✔️已复制到剪贴板</p>
+                </transition>
             </div>
         </div>
         <div class="Control">
+            <button class="button is-info is-outlined" @click="this.clip">复制</button>
             <router-link to="/" class="button is-info is-outlined">返回</router-link>
         </div>
     </div>
 </template>
 <script>
 import {
-    ipcRenderer
+    ipcRenderer,
+    clipboard
 }
 from 'electron'
 
@@ -126,7 +134,8 @@ export default {
         return {
             name: '',
             domain: '',
-            link: ''
+            link: '',
+            show: false
         }
     },
     created: function() {
@@ -143,6 +152,14 @@ export default {
     methods: {
         open() {
             ipcRenderer.send('openLink', this.www)
+        },
+        clip() {
+            clipboard.writeText(this.link)
+            this.show = true
+            const timer = setTimeout(() => {
+                clearTimeout(timer)
+                this.show = false
+            }, 1500)
         }
     },
     name: 'SettingView'
