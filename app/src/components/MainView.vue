@@ -5,7 +5,7 @@
     width: 440px;
     display: block;
     position: absolute;
-    top: 91px;
+    top: 71px;
     left: 50%;
     margin-left: -220px;
     background-image: url("./MainView/assets/CirBg.png");
@@ -13,10 +13,22 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+.input-tag {
+    width: 128px;
+    height: 38px;
+    font-size: 14px;
+    font-weight: 800;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid #3477D9;
+    box-sizing: border-box;
+    padding: 0 4px;
+    text-align: center;
 
+}
 .TextArea {
     position: absolute;
-    top: 456px;
+    top: 436px;
     width: 380px;
     text-align: center;
     font-size: 12px;
@@ -187,6 +199,7 @@
                 </div>
             </div>
         </div>
+        
         <div v-if="!HasPath" class="TextArea">
             <p class="t">{{title}}</p>
             <p>請選擇需要分享的檔案</p>
@@ -208,6 +221,9 @@
             <div v-if="!isUploading">
                 <p>
                     <button v-on:click="openFile" v-bind:class="{ 'is-disabled': !SetReadly }" class="button wide is-info">{{buttonName}}</button>
+                </p>
+                <p>
+                    <input type="text" placeholder="设置标签" class="input-tag" v-on:blur="handleInputTag">
                 </p>
                 <p>
                     <router-link to="/Setting" class="button wide is-info is-outlined">设定配置档</router-link>
@@ -249,6 +265,7 @@ export default {
             buttonName: '選擇檔案',
             UploadingText: '正在上傳',
             fileName: '',
+            tag: '', // 文件标签
             SetReadly: false,
             isDraging: false
         }
@@ -340,7 +357,7 @@ export default {
                             var f = fileNames[0].split('/')
                             that.Path = fileNames[0]
                             that.HasPath = true
-                            that.fileName = f[f.length - 1]
+                            that.fileName = `${that.tag}${f[f.length - 1]}`
                             that.buttonName = '上傳'
                         }
                     })
@@ -416,6 +433,10 @@ export default {
                 that.openFile('inBoxClick')
                 that.isAnimete = false
             }, 850)
+        },
+        handleInputTag(e) {
+            this.tag = e.target.value ? e.target.value + '__' : ''
+            this.fileName = `${this.tag}${this.fileName}`
         }
     },
     name: 'MainView'
