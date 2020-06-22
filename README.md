@@ -15,7 +15,7 @@
 
 # 視頻展示
 
-http://qina-share.5mlstudio.com/2019-06-28-qina-cao-zuo-shi-pin-mp4(2019-06-28T21:11:46+08:00).mp4 
+https://www.youtube.com/watch?v=JiZosmVATW0
 
 
 
@@ -26,6 +26,14 @@ https://github.com/qoli/QiNA/releases/
 
 
 ## 更新日誌
+
+##### 2020年06月22日
+
+##### 修正
+
+* README 文檔的視頻展示地址修改
+
+
 
 ##### 2018年09月28日 · 0.0.5 版本
 
@@ -65,11 +73,10 @@ https://github.com/qoli/QiNA/releases/
 ## TODO
 
 - [x] 添加文件拖入上傳的支持。
+- [x] 修正設定面板無法複製粘貼的問題。
+- [x] 修正發佈版本會多開的問題。
 - [ ] 郵件內使用的分享樣式。
 - [ ] 下載文件的 Web 分享頁面。
-- [x] 修正設定面板無法複製粘貼的問題。
-
-- [x] 修正發佈版本會多開的問題。
 - [ ] 中斷按鈕不可靠。
 
 
