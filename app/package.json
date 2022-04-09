@@ -8,7 +8,7 @@
     "bulma": "^0.3.1",
     "electron-settings": "^2.2.2",
     "fs-readstream-progress": "0.0.5",
-    "moment": "^2.17.1",
+    "moment": "^2.29.2",
     "qiniu": "^7.2.1",
     "transliteration": "^1.2.3",
     "vue": "^2.0.1",
