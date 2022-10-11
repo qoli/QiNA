@@ -18,7 +18,7 @@
     "vuex": "^2.0.0"
   },
   "devDependencies": {
-    "electron-packager": "^8.5.1",
+    "electron-packager": "^16.0.0",
     "electron-rebuild": "^1.5.7"
   },
   "author": "Qoli Wong <llqoli@gmail.com>"
